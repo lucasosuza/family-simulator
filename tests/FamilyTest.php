@@ -43,7 +43,7 @@ final class FamilyTest extends TestCase
     public function shouldAddADad()
     {
         $this->family->addDad();
-        $this->assertEquals(1, $this->family->count());
+        $this->assertEquals(1, $this->family->dad);
     }
 
     /**
@@ -51,38 +51,256 @@ final class FamilyTest extends TestCase
      */
     public function shouldAddReturnErrorStringWhenAddingTwoDads()
     {
-
-        $this->expectOutputString('ERROR: The family already has a mum. (No support for modern families yet. :))');
+        $this->expectOutputString('ERROR: The family already has a dad. (No support for modern families yet. :))');
         $this->family->addDad();
         $this->family->addDad();
         $this->assertEquals(1, $this->family->count());
-
     }
 
-
-    public function testShouldHaveMum(): void
+    /**
+     * @test
+     */
+    public function shouldHaveMum(): void
     {
         $this->assertClassHasAttribute('mum', Family::class);
+        $this->assertEquals(0, $this->family->mum);
     }
 
-    public function testShouldHaveChildren(): void
+    /**
+     * @test
+     */
+    public function shouldAddAMum()
+    {
+        $this->family->addMum();
+        $this->assertEquals(1, $this->family->mum);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldAddReturnErrorStringWhenAddingTwoMums()
+    {
+        $this->expectOutputString('ERROR: The family already has a mum. (No support for modern families yet. :))');
+        $this->family->addMum();
+        $this->family->addMum();
+        $this->assertEquals(1, $this->family->count());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldHaveChildrenAttribute(): void
     {
         $this->assertClassHasAttribute('children', Family::class);
     }
 
-    public function testShouldHaveCat(): void
+    /**
+     * @test
+     */
+    public function cannotAddChildrenWithoutParents()
+    {
+        $this->expectOutputString( 'ERROR: No child without a mum and a dad.');
+        $this->family->addChild();
+    }
+
+    /**
+     * @test
+     */
+    public function cannotAddChildrenWithoutMum()
+    {
+        $this->expectOutputString( 'ERROR: No child without a mum and a dad.');
+        $this->family->addDad();
+        $this->family->addChild();
+    }
+
+    /**
+     * @test
+     */
+    public function cannotAddChildrenWithoutDad()
+    {
+        $this->expectOutputString( 'ERROR: No child without a mum and a dad.');
+        $this->family->addMum();
+        $this->family->addChild();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldAddAChild()
+    {
+        $this->family->addMum();
+        $this->family->addDad();
+        $this->family->addChild();
+        $this->assertEquals(1, $this->family->children);
+        $this->assertEquals(3, $this->family->count());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldHaveCatAttribute(): void
     {
         $this->assertClassHasAttribute('cat', Family::class);
     }
 
-    public function testShouldHaveDog(): void
+    /**
+     * @test
+     */
+    public function cannotAddCatsWithoutParents()
+    {
+        $this->expectOutputString( 'ERROR: No cat without a mum or a dad.');
+        $this->family->addCat();
+    }
+
+    /**
+     * @test
+     */
+    public function cannotAddCatsWithoutMum()
+    {
+        $this->expectOutputString( 'ERROR: No cat without a mum or a dad.');
+        $this->family->addDad();
+        $this->family->addCat();
+    }
+
+    /**
+     * @test
+     */
+    public function cannotAddCatsWithoutDad()
+    {
+        $this->expectOutputString( 'ERROR: No cat without a mum or a dad.');
+        $this->family->addMum();
+        $this->family->addCat();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldAddACat()
+    {
+        $this->family->addMum();
+        $this->family->addDad();
+        $this->family->addCat();
+        $this->assertEquals(1, $this->family->cat);
+        $this->assertEquals(3, $this->family->count());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldHaveDogAttribute(): void
     {
         $this->assertClassHasAttribute('dog', Family::class);
     }
 
-    public function testShouldHaveGoldfish(): void
+    /**
+     * @test
+     */
+    public function cannotAddDogsWithoutParents()
+    {
+        $this->expectOutputString( 'ERROR: No dog without a mum or a dad.');
+        $this->family->addDog();
+    }
+
+    /**
+     * @test
+     */
+    public function cannotAddDogsWithoutMum()
+    {
+        $this->expectOutputString( 'ERROR: No dog without a mum or a dad.');
+        $this->family->addDad();
+        $this->family->addDog();
+    }
+
+    /**
+     * @test
+     */
+    public function cannotAddDogsWithoutDad()
+    {
+        $this->expectOutputString( 'ERROR: No dog without a mum or a dad.');
+        $this->family->addMum();
+        $this->family->addDog();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldAddADog()
+    {
+        $this->family->addMum();
+        $this->family->addDad();
+        $this->family->addDog();
+        $this->assertEquals(1, $this->family->dog);
+        $this->assertEquals(3, $this->family->count());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldHaveGoldfishAttribute(): void
     {
         $this->assertClassHasAttribute('goldfish', Family::class);
+    }
+
+    /**
+     * @test
+     */
+    public function cannotAddGoldfishesWithoutParents()
+    {
+        $this->expectOutputString( 'ERROR: No goldfish without a mum or a dad.');
+        $this->family->addGoldfish();
+    }
+
+    /**
+     * @test
+     */
+    public function cannotAddGoldfishesWithoutMum()
+    {
+        $this->expectOutputString( 'ERROR: No goldfish without a mum or a dad.');
+        $this->family->addDad();
+        $this->family->addGoldfish();
+    }
+
+    /**
+     * @test
+     */
+    public function cannotAddGoldfishesWithoutDad()
+    {
+        $this->expectOutputString( 'ERROR: No goldfish without a mum or a dad.');
+        $this->family->addMum();
+        $this->family->addGoldfish();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldAddAGoldfish()
+    {
+        $this->family->addMum();
+        $this->family->addDad();
+        $this->family->addGoldfish();
+        $this->assertEquals(1, $this->family->goldfish);
+        $this->assertEquals(3, $this->family->count());
+    }
+
+    /**
+     * @test
+     */
+    public function cannotAdaptChildrenWithoutMum()
+    {
+        $this->expectOutputString( 'ERROR: No adapted child without a mum.');
+        $this->family->addDad();
+        $this->family->addChild();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldAdaptChildrenWithoutDad()
+    {
+        $this->family->addMum();
+        $this->family->adaptChild();
+        $this->assertEquals(1, $this->family->children);
+        $this->assertEquals(3, $this->family->count());
     }
 
 }

@@ -1,13 +1,12 @@
 <?php
-session_start();
-
 require '../vendor/autoload.php';
 
-$family = Controller::buildFamily();
+$family = FamilyDao::getFamily();
 
 if( isset( $_REQUEST['control'] ) ) {
 	if( $_REQUEST['control'] == 'reset' ) {
-		session_destroy();
+	    // fixme their is a bug here
+		FamilyDao::reset();
 		return;
 	}
 
@@ -15,84 +14,44 @@ if( isset( $_REQUEST['control'] ) ) {
 		$family->addDad();
 	}
 
-//	if( $_REQUEST['control'] == 'add_mum' ) {
-//		if( isset( $family->mum ) ) {
-//			echo 'ERROR: The family already has a mum. (No support for modern families yet. :))';
-//		} else {
-//			$family->mum = 1;
-//			$family->increaseFamily();
-//		}
-//	}
-//
-//	if( $_REQUEST['control'] == 'add_child' ) {
-//		if( ! isset( $family->mum ) || ! isset( $family->dad ) ) {
-//			echo 'ERROR: No child without a mum and a dad.';
-//		} else {
-//
-//			if( ! isset( $family->children ) ) {
-//				$family->children = 1;
-//			} else {
-//				$family->children++;
-//			}
-//			$family->increaseFamily();
-//		}
-//	}
-//
-//	if( $_REQUEST['control'] == 'add_cat' ) {
-//		if( ! isset( $family->mum ) && ! isset( $family->dad ) ) {
-//			echo 'ERROR: No cat without a mum or a dad.';
-//		} else {
-//			if( ! isset( $family->cat ) ) {
-//				$family->cat = 1;
-//			} else {
-//				$family->cat++;
-//			}
-//
-//			$family->increaseFamily();
-//		}
-//	}
-//
-//	if( $_REQUEST['control'] == 'add_dog' ) {
-//		if( ! isset( $family->mum ) && ! isset( $family->dad ) ) {
-//			echo 'ERROR: No dog without a mum or a dad.';
-//		} else {
-//			if( ! isset( $family->dog ) ) {
-//				$family->dog = 1;
-//			} else {
-//				$family->dog++;
-//			}
-//			$family->increaseFamily();
-//		}
-//	}
-//
-//	if( $_REQUEST['control'] == 'add_goldfish' ) {
-//		if( ! isset( $family->mum ) && ! isset( $family->dad ) ) {
-//			echo 'ERROR: No goldfish without a mum or a dad.';
-//		} else {
-//			if( ! isset( $family->goldfish ) ) {
-//				$family->goldfish = 1;
-//			} else {
-//				$family->goldfish++;
-//			}
-//			$family->increaseFamily();
-//		}
-//	}
+	if( $_REQUEST['control'] == 'add_mum' ) {
+		$family->addMum();
+	}
 
-	Controller::updateFamily($family);
+	if( $_REQUEST['control'] == 'add_child' ) {
+		$family->addChild();
+	}
+
+	if( $_REQUEST['control'] == 'add_cat' ) {
+		$family->addCat();
+	}
+
+	if( $_REQUEST['control'] == 'add_dog' ) {
+		$family->addDog();
+	}
+
+	if( $_REQUEST['control'] == 'add_goldfish' ) {
+        $family->addGoldfish();
+	}
+
+    if( $_REQUEST['control'] == 'adapt_child' ) {
+        $family->adaptChild();
+    }
+
+	FamilyDao::updateFamily($family);
 
 	return;
 }
 
-
 function getCosts($family) {
 	$sum = 0;
 
-	if( isset( $family->mum ) )
+	if( $family->mum)
 		$sum += 200;
-	if( isset( $family->dad ) )
+	if( $family->dad)
 		$sum += 200;
 
-	if( isset( $family->children ) ) {
+	if( $family->children > 0) {
 		if( $family->children > 2 ) {
 			$sum += $family->children * 100;
 		} else {
@@ -100,26 +59,22 @@ function getCosts($family) {
 		}
 	}
 
-	if( isset( $family->cat ) )
+	if( $family->cat )
 		$sum += $family->cat * 10;
 
-	if( isset( $family->dog ) )
+	if( $family->dog )
 		$sum += $family->dog * 15;
 
-	if( isset( $family->goldfish ) )
+	if( $family->goldfish )
 		$sum += $family->goldfish * 2;
 
 	return $sum;
 }
 
 function sum() {
+	$family = FamilyDao::getFamily();
 
-
-	$family = Controller::buildFamily();
-
-	var_dump($family);
-
-	if( $family != null ) {
+	if( $family == null ) {
 		echo ' ';
 		return;
 	}
@@ -128,17 +83,17 @@ function sum() {
 		echo '<h2>Family</h2>';
 
 		echo '<ul>';
-		if( isset( $family->mum ) )
+		if( $family->mum)
 			echo '<li>Mum: ' . $family->mum . '</li>';
-		if( isset( $family->dad ) )
+		if( $family->dad )
 			echo '<li>Dad: ' . $family->dad . '</li>';
-		if( isset( $family->children ) )
+		if( $family->children )
 			echo '<li>Children: ' . $family->children . '</li>';
-		if( isset( $family->cat ) )
+		if( $family->cat )
 			echo '<li>Cats: ' . $family->cat . '</li>';
-		if( isset( $family->dog ) )
+		if( $family->dog )
 			echo '<li>Dogs: ' . $family->dog . '</li>';
-		if( isset( $family->goldfish ) )
+		if( $family->goldfish )
 			echo '<li>Goldfish: ' . $family->goldfish . '</li>';
 
 
@@ -166,6 +121,7 @@ if( isset( $_REQUEST['refresh'] ) ) {
 <input type="submit" name="add_mum" value="Add Mum" />
 <input type="submit" name="add_dad" value="Add Dad" />
 <input type="submit" name="add_child" value="Add Child" />
+<input type="submit" name="adapt_child" value="Adapt Child" />
 <input type="submit" name="add_cat" value="Add Cat" />
 <input type="submit" name="add_dog" value="Add Dog" />
 <input type="submit" name="add_goldfish" value="Add Goldfish" />
