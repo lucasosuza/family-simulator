@@ -1,0 +1,14 @@
+{
+    "name": "lucas/family-simulator",
+    "description": "refactoring practice",
+    "require-dev": {
+        "phpunit/phpunit": "^9.2"
+    },
+    "authors": [
+        {
+            "name": "Lucas Souza",
+            "email": "lucas.b.souza@gmail.com"
+        }
+    ],
+    "require": {}
+}
