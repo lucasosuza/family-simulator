@@ -2,11 +2,15 @@
 
 final class Controller {
 
-    static function buildFamily() {
-        if (!isset($_SESSION['family'])) {
-            $_SESSION['family'] = new Family();
+    static function buildFamily() : Family {
+        if (!isset($_COOKIE['family'])) {
+            setcookie('family', serialize(new Family()));
         }
 
-        return $_SESSION['family'];
+        return unserialize($_COOKIE['family']);
+    }
+
+    static function updateFamily(Family $family) : void {
+        setcookie('family', serialize($family));
     }
 }
