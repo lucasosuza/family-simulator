@@ -30,5 +30,15 @@ To run all tests simply execute the command:
 
 Running on this way will be easier to read what should be tested or not.
 
+#### How to verify the coverage
+
+
+
 
 ## Solutions
+
+This project solves the following instrucions 
+1. Refactor the code 
+2. Get rid of using $_SESSION for storing 
+3. Add “Adapt Child”, which should also work without a dad. 
+4. Cover your refactored code with unit tests. -> using php-code-coverage library 
