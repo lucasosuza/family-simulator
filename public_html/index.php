@@ -5,7 +5,6 @@ $family = FamilyDao::getFamily();
 
 if( isset( $_REQUEST['control'] ) ) {
 	if( $_REQUEST['control'] == 'reset' ) {
-	    // fixme their is a bug here
 		FamilyDao::reset();
 		return;
 	}
@@ -44,7 +43,7 @@ if( isset( $_REQUEST['control'] ) ) {
 }
 
 if( isset( $_REQUEST['refresh'] ) ) {
-	echo FamilyCosts::sum(FamilyDao::getFamily());
+	echo FamilyPrinter::summary(FamilyDao::getFamily());
 	return;
 }
 ?>
@@ -67,7 +66,7 @@ if( isset( $_REQUEST['refresh'] ) ) {
 </form>
 
 <div>
-	<?php echo FamilyCosts::sum(FamilyDao::getFamily()) ?>
+	<?php echo FamilyPrinter::summary(FamilyDao::getFamily()); ?>
 </div>
 
 

@@ -3,11 +3,12 @@
 final class FamilyDao {
 
     static function getFamily() : Family {
-        if (!isset($_COOKIE['family'])) {
-            self::updateFamily(new Family());
-        }
 
-        return unserialize($_COOKIE['family']);
+        if (isset($_COOKIE['family'])) {
+            return unserialize($_COOKIE['family']);
+        } else {
+            return new Family();
+        }
     }
 
     static function updateFamily(Family $family) : void {

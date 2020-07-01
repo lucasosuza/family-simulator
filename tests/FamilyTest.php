@@ -300,4 +300,25 @@ final class FamilyTest extends TestCase
         $this->assertEquals(2, $this->family->count());
     }
 
+    /**
+     * @test
+     */
+    public function shouldVerifyDadPresence()
+    {
+        $this->assertFalse($this->family->hasDad());
+        $this->family->addDad();
+        $this->assertTrue($this->family->hasDad());
+        $this->assertEquals(1, $this->family->getDad());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldVerifyMumPresence()
+    {
+        $this->assertFalse($this->family->hasMum());
+        $this->family->addMum();
+        $this->assertTrue($this->family->hasMum());
+        $this->assertEquals(1, $this->family->getMum());
+    }
 }
