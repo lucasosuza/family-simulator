@@ -34,7 +34,7 @@ final class FamilyTest extends TestCase
     public function shouldHaveDadAttribute(): void
     {
         $this->assertClassHasAttribute('dad', Family::class);
-        $this->assertEquals(0, $this->family->dad);
+        $this->assertFalse($this->family->hasDad());
     }
 
     /**
@@ -43,7 +43,7 @@ final class FamilyTest extends TestCase
     public function shouldAddADad()
     {
         $this->family->addDad();
-        $this->assertEquals(1, $this->family->dad);
+        $this->assertTrue($this->family->hasDad());
     }
 
     /**
@@ -63,7 +63,7 @@ final class FamilyTest extends TestCase
     public function shouldHaveMum(): void
     {
         $this->assertClassHasAttribute('mum', Family::class);
-        $this->assertEquals(0, $this->family->mum);
+        $this->assertFalse($this->family->hasMum());
     }
 
     /**
@@ -72,7 +72,7 @@ final class FamilyTest extends TestCase
     public function shouldAddAMum()
     {
         $this->family->addMum();
-        $this->assertEquals(1, $this->family->mum);
+        $this->assertTrue($this->family->hasMum());
     }
 
     /**
@@ -131,7 +131,7 @@ final class FamilyTest extends TestCase
         $this->family->addMum();
         $this->family->addDad();
         $this->family->addChild();
-        $this->assertEquals(1, $this->family->children);
+        $this->assertTrue($this->family->hasChildren());
         $this->assertEquals(3, $this->family->count());
     }
 
@@ -180,7 +180,6 @@ final class FamilyTest extends TestCase
         $this->family->addMum();
         $this->family->addDad();
         $this->family->addCat();
-        $this->assertEquals(1, $this->family->cat);
         $this->assertEquals(3, $this->family->count());
     }
 
@@ -229,7 +228,6 @@ final class FamilyTest extends TestCase
         $this->family->addMum();
         $this->family->addDad();
         $this->family->addDog();
-        $this->assertEquals(1, $this->family->dog);
         $this->assertEquals(3, $this->family->count());
     }
 
@@ -278,7 +276,6 @@ final class FamilyTest extends TestCase
         $this->family->addMum();
         $this->family->addDad();
         $this->family->addGoldfish();
-        $this->assertEquals(1, $this->family->goldfish);
         $this->assertEquals(3, $this->family->count());
     }
 
@@ -289,7 +286,7 @@ final class FamilyTest extends TestCase
     {
         $this->expectOutputString( 'ERROR: No adapted child without a mum.');
         $this->family->addDad();
-        $this->family->addChild();
+        $this->family->adaptChild();
     }
 
     /**
@@ -299,8 +296,8 @@ final class FamilyTest extends TestCase
     {
         $this->family->addMum();
         $this->family->adaptChild();
-        $this->assertEquals(1, $this->family->children);
-        $this->assertEquals(3, $this->family->count());
+        $this->assertTrue($this->family->hasChildren());
+        $this->assertEquals(2, $this->family->count());
     }
 
 }

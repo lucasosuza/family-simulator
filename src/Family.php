@@ -6,12 +6,12 @@ class Family
 
     private int $count = 0;
 
-    public int $dad = 0;
-    public int $mum = 0;
-    public int $children = 0;
-    public int $dog = 0;
-    public int $cat = 0;
-    public int $goldfish = 0;
+    private int $dad = 0;
+    private int $mum = 0;
+    private int $children = 0;
+    private int $dog = 0;
+    private int $cat = 0;
+    private int $goldfish = 0;
 
     public function count(): int
     {
@@ -99,7 +99,7 @@ class Family
 
     public function addGoldfish()
     {
-        if ($this->dontHaveParents())  {
+        if ($this->dontHaveParents()) {
             echo 'ERROR: No goldfish without a mum or a dad.';
         } else {
             $this->goldfish++;
@@ -107,13 +107,82 @@ class Family
         }
     }
 
-    public function adaptChild() {
+    public function adaptChild()
+    {
         if (!$this->hasMum()) {
             echo 'ERROR: No adapted child without a mum.';
         } else {
             $this->children++;
             $this->increaseFamily();
         }
+    }
+
+    public function hasChildren(): bool
+    {
+        return $this->children > 0;
+    }
+
+    /**
+     * @return int
+     */
+    public function getChildren(): int
+    {
+        return $this->children;
+    }
+
+    public function hasCat(): bool
+    {
+        return $this->cat > 0;
+    }
+
+    public function hasDog(): bool
+    {
+        return $this->dog > 0;
+    }
+
+    public function hasGoldfish(): bool
+    {
+        return $this->goldfish > 0;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDog(): int
+    {
+        return $this->dog;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCat(): int
+    {
+        return $this->cat;
+    }
+
+    /**
+     * @return int
+     */
+    public function getGoldfish(): int
+    {
+        return $this->goldfish;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDad(): int
+    {
+        return $this->dad;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMum(): int
+    {
+        return $this->mum;
     }
 
 }
