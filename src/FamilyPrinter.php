@@ -2,7 +2,7 @@
 
 final class FamilyPrinter {
 
-    static function summary(Family $family) {
+    static function summary(Family $family) : string {
         $summary = ' ';
 
         if( $family->count() > 0 ) {
